@@ -1,5 +1,5 @@
-#Name: aragarwal@wisc.edu
-#Hours: 16
+#Author: Ansh Agarwal
+
 
 import os, json, csv
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -7,6 +7,7 @@ from io import TextIOWrapper
 import pandas as pd
 import tree
 
+#This class will help the following code to access the data
 class ZippedCSVReader:
     
     def __init__(self,file_name):
@@ -65,7 +66,8 @@ class ZippedCSVReader:
                             return self.dict_list
             else:
                 raise Exception("File not in directory")
-                    
+                
+#The Loan class will provide a convenient way to represent information about loans                  
 class Loan:
     def __init__(self, amount, purpose, race, income, decision):
         self.amount = amount
@@ -112,7 +114,9 @@ class Loan:
             else:
                 return 0
             
-            
+# The Bank class ties together ZippedCSVReader and Loan
+# It converts OrderedDicts rows to Loan objects
+# It filters loans with respect to a specific Bank name
 class Bank: 
     def __init__(self, name,reader):
         self.name = name
@@ -165,6 +169,7 @@ def get_bank_names(reader):
     bank_names.sort()
     return bank_names
 
+#Instances of SimplePredictor can be used to decide whether to approve a loan.
 class SimplePredictor:
     
     def __init__(self):
@@ -187,6 +192,7 @@ class SimplePredictor:
     def get_denied(self):
         return self.denied
 
+#Build a Binary Search Tree to decide if a specific loan should be approved or no
 class DTree(SimplePredictor):
     
     def __init__(self, nodes):
